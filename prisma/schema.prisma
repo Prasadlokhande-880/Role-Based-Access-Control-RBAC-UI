@@ -1,0 +1,72 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER 
+  ADMIN
+  ROOT_ADMIN
+}
+
+model User {
+  id Int @id @default(autoincrement())
+  name String
+  email String @unique
+  password String
+  phone String
+  city String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  role Role @default(USER)
+}
+
+model Society {
+  id Int @id @default(autoincrement())
+  name String
+  address String
+  state String
+  district String?
+  areaOfOperation String
+  dateOfRegistration String
+  sectorType String
+
+  @@map("societies")
+}
+
+model application {
+  id Int @id @default(autoincrement())
+  societyName String
+  address String
+  state String
+  district String?
+  typeOfSociety String
+  userName String
+  designation String
+  contact String
+  pan String
+  tan String
+  serviceTaxNo String
+  email String
+  date DateTime @default(now())
+  status String @default("Pending")
+  @@map("applications")
+}
+
+model form {
+  email String @unique
+  input1 String
+  input2 String
+  input3 String
+  input4 String
+  input5 String
+
+  @@map("forms")
+}
